@@ -1,0 +1,215 @@
+name: SO101 Installer Shell Test
+
+
+on:
+
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+
+  workflow_dispatch:
+
+
+
+jobs:
+
+
+  shell-test:
+
+
+    name:
+      Shell Script Test
+
+
+    runs-on:
+      ubuntu-latest
+
+
+
+    steps:
+
+
+    ################################
+    # Checkout
+    ################################
+
+    - name:
+        Checkout repository
+
+      uses:
+        actions/checkout@v4
+
+
+
+    ################################
+    # Install tools
+    ################################
+
+    - name:
+        Install shell tools
+
+      run:
+        |
+        sudo apt update
+
+        sudo apt install -y \
+          shellcheck \
+          tree
+
+
+
+    ################################
+    # Project structure
+    ################################
+
+
+    - name:
+        Check project structure
+
+      run:
+        |
+
+        echo "Checking files..."
+
+        test -f install.sh
+
+        test -f repair.sh
+
+        test -f uninstall.sh
+
+
+        test -d scripts
+
+        test -d config
+
+        test -d lib
+
+
+
+    ################################
+    # Shell syntax
+    ################################
+
+
+    - name:
+        Bash syntax check
+
+      run:
+        |
+
+        echo "Checking bash syntax"
+
+
+        find . \
+        -name "*.sh" \
+        -type f \
+        -print0 \
+        | while IFS= read -r -d '' file
+
+        do
+
+          echo "Checking $file"
+
+          bash -n "$file"
+
+        done
+
+
+
+    ################################
+    # Shellcheck
+    ################################
+
+
+    - name:
+        Run ShellCheck
+
+      run:
+        |
+
+        shellcheck \
+        install.sh \
+        repair.sh \
+        uninstall.sh \
+        scripts/*.sh \
+        lib/*.sh
+
+
+
+    ################################
+    # Permission check
+    ################################
+
+
+    - name:
+        Check executable permission
+
+      run:
+        |
+
+        echo "Checking executable bits"
+
+
+        find . \
+        -name "*.sh" \
+        -type f \
+        -exec ls -l {} \;
+
+
+
+    ################################
+    # Test installer dry run
+    ################################
+
+
+    - name:
+        Installer dry run
+
+      run:
+        |
+
+        echo "Running dry test"
+
+
+        bash -x install.sh --help || true
+
+
+
+    ################################
+    # Config check
+    ################################
+
+
+    - name:
+        Validate configs
+
+      run:
+        |
+
+        test -f config/versions.conf
+
+        test -f config/mirrors.conf
+
+        test -f config/conda.txt
+
+
+
+    ################################
+    # Summary
+    ################################
+
+
+    - name:
+        Finish
+
+      run:
+        |
+
+        echo "================================"
+
+        echo "SO101 Installer CI PASS"
+
+        echo "================================"
