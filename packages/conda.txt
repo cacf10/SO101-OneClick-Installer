@@ -1,45 +1,39 @@
-python=3.12
+# ========================================
+# SO101 OneClick Installer
+# Conda Base Packages
+# ========================================
 
+# Python
+python=3.12
 pip
 
-setuptools=80.9.0
-
+# Build Tools
+cmake
+git
 wheel
 
-cmake
-
-git
-
-libstdcxx-ng
-
-libgcc-ng
-
-openssl
-
-sqlite
-
-zlib
-
-xz
-
-tk
-
-readline
-
-ncurses
-
-libffi
-
-ca-certificates
-
-certifi
-
+# Packaging
+setuptools=80.9.0
 packaging=25.0
 
+# Runtime Libraries
+openssl
+sqlite
+xz
+zlib
+tk
+readline
+ncurses
+libffi
+libstdcxx-ng
+libgcc-ng
+
+# SSL
+ca-certificates
+certifi
+
+# Intel MKL
 mkl
-
 mkl-service
-
 mkl_fft
-
 mkl_random
