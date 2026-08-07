@@ -1,7 +1,15 @@
-git clone https://github.com/huggingface/lerobot.git
+#!/usr/bin/env bash
+
+source config.conf
+
+cd ~
+
+if [ ! -d lerobot ]; then
+    git clone https://github.com/huggingface/lerobot.git
+fi
 
 cd lerobot
 
-git checkout v0.6.1
+git checkout v${LEROBOT_VERSION}
 
 pip install -e ".[feetech]"
