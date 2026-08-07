@@ -1,9 +1,19 @@
+# Core Python Packages
+
 numpy==2.2.6
 
 opencv-python
 
-tqdm
+tqdm==4.69.0
 
 safetensors==0.6.2
 
 draccus
+
+pyserial
+
+rich
+
+requests
+
+huggingface_hub
