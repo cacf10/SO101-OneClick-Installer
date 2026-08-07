@@ -1,0 +1,15 @@
+git
+
+wget
+
+curl
+
+ffmpeg
+
+cmake
+
+build-essential
+
+python3-dev
+
+libusb-1.0-0-dev
