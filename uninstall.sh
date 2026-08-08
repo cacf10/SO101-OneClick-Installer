@@ -11,8 +11,8 @@ set -euo pipefail
 
 
 
-source "$(dirname "$0")/lib/colors.sh"
-source "$(dirname "$0")/lib/logger.sh"
+source "$(dirname "$0")/libs/colors.sh"
+source "$(dirname "$0")/libs/logger.sh"
 
 
 
