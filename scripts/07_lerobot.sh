@@ -89,7 +89,7 @@ pip install -e .
 
 info "Installing Feetech support..."
 
-pip install -e ".[feetech]"
+pip install -e ".[feetech,dataset,dev]"
 
 #########################################
 # Verify
