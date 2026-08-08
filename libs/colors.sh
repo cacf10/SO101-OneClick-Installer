@@ -1,4 +1,3 @@
-cat > libs/colors.sh <<'EOF'
 #!/usr/bin/env bash
 
 # ============================================================
@@ -60,4 +59,4 @@ warning() {
 error() {
     echo_red "[ERROR] $*"
 }
-EOF
+
