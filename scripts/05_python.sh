@@ -10,8 +10,8 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-source "$ROOT_DIR/lib/colors.sh"
-source "$ROOT_DIR/lib/logger.sh"
+source "$ROOT_DIR/libs/colors.sh"
+source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 5  Install Python Toolchain"
 
