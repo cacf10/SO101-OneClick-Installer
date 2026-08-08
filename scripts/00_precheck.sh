@@ -10,9 +10,9 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-source "$ROOT_DIR/lib/colors.sh"
-source "$ROOT_DIR/lib/logger.sh"
-source "$ROOT_DIR/lib/utils.sh"
+source "$ROOT_DIR/libs/colors.sh"
+source "$ROOT_DIR/libs/logger.sh"
+source "$ROOT_DIR/libs/utils.sh"
 
 LOG_FILE="$ROOT_DIR/install.log"
 
