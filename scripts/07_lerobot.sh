@@ -15,6 +15,12 @@ source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 7  Install LeRobot"
 
+source "$ROOT_DIR/libs/conda.sh"
+
+load_conda
+
+conda activate lerobot
+
 #########################################
 # Configuration
 #########################################
