@@ -15,6 +15,12 @@ source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 6  Install PyTorch"
 
+source "$ROOT_DIR/libs/conda.sh"
+
+load_conda
+
+conda activate lerobot
+
 ##############################################
 # Configuration
 ##############################################
