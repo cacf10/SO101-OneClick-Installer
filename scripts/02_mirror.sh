@@ -15,6 +15,12 @@ source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 2  Configure Mirrors"
 
+source "$ROOT_DIR/libs/conda.sh"
+
+load_conda
+
+conda activate lerobot
+
 ###########################################################
 # Load config
 ###########################################################
