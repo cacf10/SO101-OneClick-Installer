@@ -19,7 +19,11 @@ source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 10  Verify Installation"
 
+source "$ROOT_DIR/libs/conda.sh"
 
+load_conda
+
+conda activate lerobot
 
 REPORT="$HOME/so101_install_report.txt"
 
