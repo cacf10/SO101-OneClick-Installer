@@ -19,7 +19,11 @@ source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 9  Configure Camera"
 
+source "$ROOT_DIR/libs/conda.sh"
 
+load_conda
+
+conda activate lerobot
 
 ########################################
 # Install packages
