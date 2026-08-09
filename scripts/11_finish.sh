@@ -20,7 +20,11 @@ source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 11  Finish Installation"
 
+source "$ROOT_DIR/libs/conda.sh"
 
+load_conda
+
+conda activate lerobot
 
 ####################################
 # Environment
