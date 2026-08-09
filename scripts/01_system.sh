@@ -15,6 +15,12 @@ source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 1  Install System Packages"
 
+source "$ROOT_DIR/libs/conda.sh"
+
+load_conda
+
+conda activate lerobot
+
 #############################################
 # 更新 apt
 #############################################
