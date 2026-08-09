@@ -18,6 +18,11 @@ source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 8  Configure USB"
 
+source "$ROOT_DIR/libs/conda.sh"
+
+load_conda
+
+conda activate lerobot
 
 #########################################
 # Check Linux
