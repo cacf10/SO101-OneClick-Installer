@@ -55,7 +55,11 @@ else
 
     bash "$MINIFORGE_FILE" -b -p "$INSTALL_DIR"
 
-    success "Miniforge installed."
+    success "Miniforge installed"
+
+    $INSTALL_DIR/bin/conda init bash
+
+    success "Conda initialized"
 
 fi
 
