@@ -61,6 +61,10 @@ else
 
     success "Conda initialized"
 
+    # enable conda immediately
+    source "$INSTALL_DIR/etc/profile.d/conda.sh"
+
+    success "Conda loaded into current shell"
 fi
 
 ############################################################
