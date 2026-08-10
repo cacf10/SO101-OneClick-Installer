@@ -66,14 +66,13 @@ else
     if ! grep -q "miniforge3/etc/profile.d/conda.sh" ~/.bashrc
     then
 
-    cat >> ~/.bashrc <<EOF
+cat >> ~/.bashrc <<EOF
 
-    # >>> SO101 Installer >>>
-    source $INSTALL_DIR/etc/profile.d/conda.sh
-    # <<< SO101 Installer <<<
+# >>> SO101 Installer >>>
+source $INSTALL_DIR/etc/profile.d/conda.sh
+# <<< SO101 Installer <<<
 
-    EOF
-
+EOF
     fi
 
     success "Conda initialized"
