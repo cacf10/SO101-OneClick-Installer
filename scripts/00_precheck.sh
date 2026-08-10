@@ -18,12 +18,6 @@ LOG_FILE="$ROOT_DIR/install.log"
 
 title "STEP 0  Environment Precheck"
 
-source "$ROOT_DIR/libs/conda.sh"
-
-load_conda
-
-conda activate lerobot
-
 ###########################################################
 # Root Check
 ###########################################################
