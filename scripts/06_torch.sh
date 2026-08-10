@@ -6,6 +6,13 @@
 # Install PyTorch (Locked Version)
 #
 
+
+source "$ROOT_DIR/libs/conda.sh"
+
+load_conda
+
+conda activate lerobot
+
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -14,12 +21,6 @@ source "$ROOT_DIR/libs/colors.sh"
 source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 6  Install PyTorch"
-
-source "$ROOT_DIR/libs/conda.sh"
-
-load_conda
-
-conda activate lerobot
 
 ##############################################
 # Configuration
