@@ -6,6 +6,13 @@
 # Configure LeRobot Environment
 #
 
+
+source "$ROOT_DIR/libs/conda.sh"
+
+load_conda
+
+conda activate lerobot
+
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -14,12 +21,6 @@ source "$ROOT_DIR/libs/colors.sh"
 source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 4  Configure Python Environment"
-
-source "$ROOT_DIR/libs/conda.sh"
-
-load_conda
-
-conda activate lerobot
 
 ###############################################
 # Configuration
