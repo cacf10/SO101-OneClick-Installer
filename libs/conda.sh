@@ -3,13 +3,12 @@
 MINIFORGE_DIR="$HOME/miniforge3"
 
 
-load_conda(){
-
+load_conda()
+{
     if [ -f "$MINIFORGE_DIR/etc/profile.d/conda.sh" ]; then
         source "$MINIFORGE_DIR/etc/profile.d/conda.sh"
     else
-        echo "Conda not found"
+        echo "Conda not installed"
         exit 1
     fi
-
 }
