@@ -15,15 +15,15 @@ echo_blue "====================================="
 
 check_system
 
-bash scripts/03_conda.sh
+source scripts/03_conda.sh
 
-bash scripts/04_environment.sh
+source scripts/04_environment.sh
 
-bash scripts/06_torch.sh
+source scripts/06_torch.sh
 
-bash scripts/07_lerobot.sh
+source scripts/07_lerobot.sh
 
-bash scripts/08_usb.sh
+source scripts/08_usb.sh
 
 echo_green ""
 echo_green "Installation Finished!"
