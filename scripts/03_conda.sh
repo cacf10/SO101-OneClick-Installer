@@ -59,6 +59,23 @@ else
 
     $INSTALL_DIR/bin/conda init bash
 
+    # Enable conda immediately
+    source "$INSTALL_DIR/etc/profile.d/conda.sh"
+
+    # Add auto load for future shells
+    if ! grep -q "miniforge3/etc/profile.d/conda.sh" ~/.bashrc
+    then
+
+    cat >> ~/.bashrc <<EOF
+
+    # >>> SO101 Installer >>>
+    source $INSTALL_DIR/etc/profile.d/conda.sh
+    # <<< SO101 Installer <<<
+
+    EOF
+
+    fi
+
     success "Conda initialized"
 
     # enable conda immediately
