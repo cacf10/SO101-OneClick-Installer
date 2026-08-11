@@ -159,7 +159,7 @@ then
 
     info "Running conda-unpack..."
 
-    "$ENV_DIR/bin/conda-unpack"
+    "$ENV_DIR/bin/python" "$ENV_DIR/bin/conda-unpack"
 
 
     success "Environment repaired"
