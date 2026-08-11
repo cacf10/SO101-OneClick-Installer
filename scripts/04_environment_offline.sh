@@ -159,7 +159,8 @@ then
 
     info "Running conda-unpack..."
 
-    "$ENV_DIR/bin/python" "$ENV_DIR/bin/conda-unpack"
+    "$ENV_DIR/bin/python" \
+    "$ENV_DIR/bin/conda-unpack"
 
 
     success "Environment repaired"
@@ -169,6 +170,24 @@ else
     warning "conda-unpack not found."
 
 fi
+
+############################################################
+# Verify restored python
+############################################################
+
+
+if [ ! -f "$ENV_DIR/bin/python" ]
+
+then
+
+    error "Python missing after extraction"
+
+    exit 1
+
+fi
+
+
+success "Python found"
 
 
 
