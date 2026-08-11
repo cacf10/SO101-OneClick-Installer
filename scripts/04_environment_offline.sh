@@ -40,7 +40,7 @@ ENV_NAME="lerobot"
 ENV_DIR="$CONDA_DIR/envs/$ENV_NAME"
 
 
-PACKAGE="$ROOT_DIR/offline/so101-lerobot-env.tar.gz"
+PACKAGE="$ROOT_DIR/offline/environment/so101-lerobot-env.tar.gz"
 
 
 
