@@ -1,202 +1,235 @@
 #!/usr/bin/env bash
-#
-# SO101-OneClick-Installer
-# scripts/03_conda.sh
-#
-# Install Miniforge / Conda
-#
 
 set -euo pipefail
 
+
+############################################################
+# SO101-OneClick-Installer
+# scripts/03_conda.sh
+#
+# Install Miniforge
+############################################################
+
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 
 source "$ROOT_DIR/libs/colors.sh"
 source "$ROOT_DIR/libs/logger.sh"
 
+
+
 title "STEP 3  Install Miniforge"
+
+
 
 ############################################################
 # Configuration
 ############################################################
 
+
 MINIFORGE_VERSION="25.3.1-0"
 
 MINIFORGE_FILE="Miniforge3-Linux-x86_64.sh"
 
+
 DOWNLOAD_URL="https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${MINIFORGE_FILE}"
+
 
 INSTALL_DIR="$HOME/miniforge3"
 
 ENV_NAME="lerobot"
 
-PYTHON_VERSION="3.12"
+
 
 ############################################################
-# Check Conda
+# Detect Offline Package
 ############################################################
 
-if command -v conda >/dev/null 2>&1
-then
-    success "Conda already installed."
+
+OFFLINE_INSTALLER="$ROOT_DIR/offline/$MINIFORGE_FILE"
+
+
+
+############################################################
+# Install Miniforge
+############################################################
+
+
+if [ -f "$INSTALL_DIR/bin/conda" ]; then
+
+
+    success "Miniforge already installed"
+
+
 else
 
-    info "Downloading Miniforge..."
 
-    cd /tmp
+    info "Installing Miniforge"
 
-    if [[ ! -f "$MINIFORGE_FILE" ]]
-    then
-        wget -O "$MINIFORGE_FILE" "$DOWNLOAD_URL"
+
+
+    if [ -f "$OFFLINE_INSTALLER" ]; then
+
+
+        info "Using offline Miniforge installer"
+
+
+        bash "$OFFLINE_INSTALLER" \
+        -b \
+        -p "$INSTALL_DIR"
+
+
+    else
+
+
+        info "Downloading Miniforge"
+
+
+        cd /tmp
+
+
+        wget -O "$MINIFORGE_FILE" \
+        "$DOWNLOAD_URL"
+
+
+
+        bash "$MINIFORGE_FILE" \
+        -b \
+        -p "$INSTALL_DIR"
+
+
     fi
 
-    success "Download completed."
 
-    info "Installing Miniforge..."
-
-    bash "$MINIFORGE_FILE" -b -p "$INSTALL_DIR"
 
     success "Miniforge installed"
 
-    $INSTALL_DIR/bin/conda init bash
 
-    # Enable conda immediately
-    source "$INSTALL_DIR/etc/profile.d/conda.sh"
-
-    # Add auto load for future shells
-    if ! grep -q "miniforge3/etc/profile.d/conda.sh" ~/.bashrc
-    then
-
-cat >> ~/.bashrc <<EOF
-
-# >>> SO101 Installer >>>
-source $INSTALL_DIR/etc/profile.d/conda.sh
-# <<< SO101 Installer <<<
-
-EOF
-    fi
-
-    success "Conda initialized"
-
-    # enable conda immediately
-    source "$INSTALL_DIR/etc/profile.d/conda.sh"
-
-    success "Conda loaded into current shell"
 fi
 
-############################################################
-# Initialize Conda
-############################################################
 
-info "Initializing Conda..."
-
-source "$INSTALL_DIR/etc/profile.d/conda.sh"
-
-conda init bash >/dev/null
 
 ############################################################
-# Reload shell
+# Conda command
 ############################################################
 
-export PATH="$INSTALL_DIR/bin:$PATH"
+
+CONDA="$INSTALL_DIR/bin/conda"
+
+
+
+if [ ! -f "$CONDA" ]; then
+
+    echo_red "Conda installation failed"
+
+    exit 1
+
+fi
+
+
+
+echo "$($CONDA --version)"
+
+
 
 ############################################################
-# Verify
+# Configure bashrc
 ############################################################
 
-conda --version
 
-success "Conda initialized."
-
-############################################################
-# Update conda
-############################################################
-
-info "Updating Conda..."
-
-conda update -y conda
-
-############################################################
-# Create Environment
-############################################################
-
-if conda env list | grep -q "^${ENV_NAME}"
+if ! grep -q "SO101 Conda" "$HOME/.bashrc"
 then
 
-    success "Environment '${ENV_NAME}' already exists."
+
+cat >> "$HOME/.bashrc" <<EOF
+
+
+# >>> SO101 Conda >>>
+source $INSTALL_DIR/etc/profile.d/conda.sh
+# <<< SO101 Conda <<<
+
+EOF
+
+
+fi
+
+
+
+############################################################
+# Create environment
+############################################################
+
+
+if "$CONDA" env list | grep -q "^${ENV_NAME}"
+then
+
+
+    success "Environment exists: $ENV_NAME"
+
 
 else
 
-    info "Creating environment..."
 
-    conda create -y \
-        -n ${ENV_NAME} \
-        python=${PYTHON_VERSION}
+    info "Creating environment"
 
-    success "Environment created."
+
+    "$CONDA" create \
+    -y \
+    -n "$ENV_NAME" \
+    python=3.12
+
+
+
+    success "Environment created"
+
 
 fi
 
-############################################################
-# Activate
-############################################################
 
-source "$INSTALL_DIR/etc/profile.d/conda.sh"
-
-conda activate ${ENV_NAME}
 
 ############################################################
-# Verify Python
+# Install basic tools
 ############################################################
 
-info "Python Version"
 
-python --version
+ENV_PYTHON="$INSTALL_DIR/envs/$ENV_NAME/bin/python"
 
-############################################################
-# Upgrade pip
-############################################################
 
-python -m pip install --upgrade pip
-
-############################################################
-# Install wheel tools
-############################################################
-
-pip install \
+"$ENV_PYTHON" -m pip install \
+--upgrade \
+pip \
 wheel \
-setuptools==80.9.0 \
+"setuptools==80.9.0" \
 packaging
 
-############################################################
-# Verify
-############################################################
 
-python - <<EOF
-import sys
-print("Python :",sys.version)
-EOF
-
-############################################################
-# Conda Clean
-############################################################
-
-conda clean -y --all
 
 ############################################################
 # Summary
 ############################################################
 
+
 title "Conda Summary"
 
-echo
-
-echo "Install Path : $INSTALL_DIR"
-
-echo "Environment  : $ENV_NAME"
-
-echo "Python       : $(python --version)"
 
 echo
+
+echo "Conda:"
+echo "$CONDA"
+
+
+echo
+
+echo "Environment:"
+echo "$INSTALL_DIR/envs/$ENV_NAME"
+
+
+echo
+
+echo "Python:"
+"$ENV_PYTHON" --version
+
+
 
 success "STEP 3 Finished."
-
