@@ -104,35 +104,26 @@ fi
 # Conda
 ############################################################
 
-
-bash "$ROOT_DIR/scripts/03_conda.sh"
-
-
-
 ############################################################
 # Environment
 ############################################################
 
 
-if [ "$MODE" = "offline" ]; then
+if [ "${1:-}" = "--offline" ]
 
+then
 
-    if [ ! -f "$ROOT_DIR/offline/so101-lerobot-env.tar.gz" ]; then
-
-        echo_red "Offline environment package missing!"
-
-        exit 1
-
-    fi
-
+    bash "$ROOT_DIR/scripts/03_conda_offline.sh"
 
     bash "$ROOT_DIR/scripts/04_environment_offline.sh"
 
-
 else
 
+    bash "$ROOT_DIR/scripts/03_conda.sh"
 
     bash "$ROOT_DIR/scripts/04_environment.sh"
+
+fi
 
 
     bash "$ROOT_DIR/scripts/05_python.sh"
@@ -144,7 +135,7 @@ else
     bash "$ROOT_DIR/scripts/07_lerobot.sh"
 
 
-fi
+
 
 
 
