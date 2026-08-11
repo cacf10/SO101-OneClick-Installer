@@ -75,65 +75,51 @@ check_system
 bash "$ROOT_DIR/scripts/00_precheck.sh"
 
 
-############################################################
-# System
-############################################################
-
-
-bash "$ROOT_DIR/scripts/01_system.sh"
-
-
-############################################################
-# Mirror
-############################################################
-
-
-if [ "$MODE" = "online" ]; then
-
-    bash "$ROOT_DIR/scripts/02_mirror.sh"
-
-else
-
-    echo_yellow "Offline mode: skip mirrors"
-
-fi
-
-
-
-############################################################
-# Conda
-############################################################
-
-############################################################
-# Environment
-############################################################
-
-
 if [ "${1:-}" = "--offline" ]
 
 then
 
-    bash "$ROOT_DIR/scripts/03_conda_offline.sh"
+    echo_blue "Offline installation mode"
 
-    bash "$ROOT_DIR/scripts/04_environment_offline.sh"
+
+    source "$ROOT_DIR/scripts/00_precheck.sh"
+
+    source "$ROOT_DIR/scripts/01_system_offline.sh"
+
+    source "$ROOT_DIR/scripts/03_conda_offline.sh"
+
+    source "$ROOT_DIR/scripts/04_environment_offline.sh"
+
+    source "$ROOT_DIR/scripts/05_python_offline.sh"
+
+    source "$ROOT_DIR/scripts/06_torch_offline.sh"
+
+    source "$ROOT_DIR/scripts/07_lerobot_offline.sh"
+
 
 else
 
-    bash "$ROOT_DIR/scripts/03_conda.sh"
+    echo_blue "Online installation mode"
 
-    bash "$ROOT_DIR/scripts/04_environment.sh"
+
+    source "$ROOT_DIR/scripts/00_precheck.sh"
+
+    source "$ROOT_DIR/scripts/01_system.sh"
+
+    source "$ROOT_DIR/scripts/02_mirror.sh"
+
+    source "$ROOT_DIR/scripts/03_conda.sh"
+
+    source "$ROOT_DIR/scripts/04_environment.sh"
+
+    source "$ROOT_DIR/scripts/05_python.sh"
+
+    source "$ROOT_DIR/scripts/06_torch.sh"
+
+    source "$ROOT_DIR/scripts/07_lerobot.sh"
+
 
 fi
-
-
-    bash "$ROOT_DIR/scripts/05_python.sh"
-
-
-    bash "$ROOT_DIR/scripts/06_torch.sh"
-
-
-    bash "$ROOT_DIR/scripts/07_lerobot.sh"
-
 
 
 
