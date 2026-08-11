@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
-#
-# SO101-OneClick-Installer
-#
-# scripts/10_verify.sh
-#
-# Installation verification
-#
 
 set -euo pipefail
 
 
+############################################################
+# SO101-OneClick-Installer
+#
+# scripts/10_verify.sh
+#
+# Installation verification V1.1
+############################################################
+
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 
 source "$ROOT_DIR/libs/colors.sh"
 source "$ROOT_DIR/libs/logger.sh"
@@ -19,11 +22,24 @@ source "$ROOT_DIR/libs/logger.sh"
 
 title "STEP 10  Verify Installation"
 
-source "$ROOT_DIR/libs/conda.sh"
 
-load_conda
 
-conda activate lerobot
+############################################################
+# Environment
+############################################################
+
+
+CONDA_DIR="$HOME/miniforge3"
+
+ENV_NAME="lerobot"
+
+ENV_DIR="$CONDA_DIR/envs/$ENV_NAME"
+
+PYTHON="$ENV_DIR/bin/python"
+
+PIP="$ENV_DIR/bin/pip"
+
+
 
 REPORT="$HOME/so101_install_report.txt"
 
@@ -34,71 +50,75 @@ FAIL=0
 
 
 
-####################################
-# helper
-####################################
+############################################################
+# Check helper
+############################################################
 
 
 check()
 {
-    NAME=$1
-    CMD=$2
+
+NAME="$1"
+
+CMD="$2"
 
 
-    echo -n "$NAME ... "
+echo -n "$NAME ... "
 
 
-    if eval "$CMD" >/dev/null 2>&1
-    then
+if eval "$CMD" >/dev/null 2>&1
 
-        echo "PASS"
+then
 
-        echo "PASS  $NAME" >> $REPORT
+    echo "PASS"
 
-        PASS=$((PASS+1))
+    echo "PASS  $NAME" >> "$REPORT"
+
+    PASS=$((PASS+1))
 
 
-    else
+else
 
-        echo "FAIL"
+    echo "FAIL"
 
-        echo "FAIL  $NAME" >> $REPORT
+    echo "FAIL  $NAME" >> "$REPORT"
 
-        FAIL=$((FAIL+1))
+    FAIL=$((FAIL+1))
 
-    fi
+
+fi
 
 }
 
 
 
-####################################
-# report header
-####################################
+
+############################################################
+# Report
+############################################################
 
 
-cat > $REPORT <<EOF
+cat > "$REPORT" <<EOF
 
-SO101 OneClick Installer Report
-================================
+# SO101 OneClick Installer Report
 
 Date:
-
 $(date)
 
-
 User:
-
 $USER
+
+Environment:
+$ENV_DIR
 
 
 EOF
 
 
 
-####################################
-# system
-####################################
+############################################################
+# System
+############################################################
 
 
 echo
@@ -119,9 +139,9 @@ check \
 
 
 
-####################################
+############################################################
 # Conda
-####################################
+############################################################
 
 
 echo
@@ -131,14 +151,14 @@ echo "[Conda]"
 
 
 check \
-"Conda" \
-"command -v conda"
+"Conda Binary" \
+"test -f $CONDA_DIR/bin/conda"
 
 
 
-####################################
+############################################################
 # Python
-####################################
+############################################################
 
 
 echo
@@ -148,20 +168,20 @@ echo "[Python]"
 
 
 check \
-"Python3" \
-"python --version"
+"Python" \
+"$PYTHON --version"
 
 
 
 check \
 "Python Import" \
-"python -c 'import sys'"
+"$PYTHON -c 'import sys'"
 
 
 
-####################################
+############################################################
 # Torch
-####################################
+############################################################
 
 
 echo
@@ -171,26 +191,26 @@ echo "[PyTorch]"
 
 
 check \
-"Torch" \
-"python -c 'import torch'"
+"Torch Import" \
+"$PYTHON -c 'import torch'"
 
 
 
 check \
 "Torch Version" \
-"python -c 'import torch;print(torch.__version__)'"
+"$PYTHON -c 'import torch;print(torch.__version__)'"
 
 
 
 check \
-"CUDA Query" \
-"python -c 'import torch;print(torch.cuda.is_available())'"
+"CUDA Available" \
+"$PYTHON -c 'import torch;print(torch.cuda.is_available())'"
 
 
 
-####################################
-# Python packages
-####################################
+############################################################
+# Packages
+############################################################
 
 
 echo
@@ -201,25 +221,25 @@ echo "[Packages]"
 
 check \
 "safetensors" \
-"python -c 'from safetensors.torch import load_file'"
+"$PYTHON -c 'from safetensors.torch import load_file'"
 
 
 
 check \
 "tqdm" \
-"python -c 'import tqdm'"
+"$PYTHON -c 'import tqdm'"
 
 
 
 check \
 "opencv" \
-"python -c 'import cv2'"
+"$PYTHON -c 'import cv2'"
 
 
 
-####################################
+############################################################
 # LeRobot
-####################################
+############################################################
 
 
 echo
@@ -230,32 +250,31 @@ echo "[LeRobot]"
 
 check \
 "lerobot import" \
-"python -c 'import lerobot'"
-
-
-
-check \
-"lerobot cli" \
-"command -v lerobot-find-port"
+"$PYTHON -c 'import lerobot'"
 
 
 
 check \
 "lerobot calibrate" \
-"command -v lerobot-calibrate"
+"test -f $ENV_DIR/bin/lerobot-calibrate"
+
+
+
+check \
+"lerobot record" \
+"test -f $ENV_DIR/bin/lerobot-record"
 
 
 
 check \
 "lerobot teleoperate" \
-"command -v lerobot-teleoperate"
+"test -f $ENV_DIR/bin/lerobot-teleoperate"
 
 
 
-
-####################################
+############################################################
 # Feetech
-####################################
+############################################################
 
 
 echo
@@ -266,14 +285,13 @@ echo "[Feetech]"
 
 check \
 "Feetech SDK" \
-"python -c 'import feetech_servo_sdk'"
+"$PYTHON -c 'import feetech_servo_sdk'"
 
 
 
-
-####################################
+############################################################
 # Robot
-####################################
+############################################################
 
 
 echo
@@ -284,19 +302,19 @@ echo "[SO101]"
 
 check \
 "SO follower" \
-"python -c 'from lerobot.robots.so_follower import SOFollower'"
+"$PYTHON -c 'from lerobot.robots.so_follower import SOFollower'"
 
 
 
 check \
 "SO leader" \
-"python -c 'from lerobot.teleoperators.so_leader import SOLeader'"
+"$PYTHON -c 'from lerobot.teleoperators.so_leader import SOLeader'"
 
 
 
-####################################
+############################################################
 # USB
-####################################
+############################################################
 
 
 echo
@@ -317,9 +335,9 @@ check \
 
 
 
-####################################
+############################################################
 # Camera
-####################################
+############################################################
 
 
 echo
@@ -335,37 +353,38 @@ check \
 
 
 check \
-"OpenCV camera" \
-"python - <<PY
+"OpenCV Camera" \
+"$PYTHON - <<PY
 import cv2
-c=cv2.VideoCapture(0)
-r=c.isOpened()
-c.release()
-exit(0 if r else 1)
+
+cam=cv2.VideoCapture(0)
+
+ok=cam.isOpened()
+
+cam.release()
+
+exit(0 if ok else 1)
+
 PY
 "
 
 
 
-####################################
+############################################################
 # Summary
-####################################
+############################################################
 
 
-cat >> $REPORT <<EOF
+cat >> "$REPORT" <<EOF
 
 
 ==============================
 
 PASS:
-
 $PASS
 
-
 FAIL:
-
 $FAIL
-
 
 EOF
 
@@ -376,23 +395,31 @@ echo
 echo "================================"
 
 
-if [ $FAIL -eq 0 ]
+
+if [ "$FAIL" -eq 0 ]
+
 then
 
-    success "ALL TEST PASSED"
 
-    echo
+success "ALL TEST PASSED"
 
-    echo "SO101 environment is ready."
+
+echo
+
+echo "SO101 environment is ready."
+
 
 else
 
-    warning "Some checks failed"
 
-    echo
+warning "Some checks failed"
 
-    echo "Please check report:"
-    echo "$REPORT"
+
+echo
+
+echo "Report:"
+echo "$REPORT"
+
 
 fi
 
