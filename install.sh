@@ -96,6 +96,9 @@ then
 
     source "$ROOT_DIR/scripts/07_lerobot_offline.sh"
 
+    bash "$ROOT_DIR/scripts/08_usb_offline.sh"
+
+    bash "$ROOT_DIR/scripts/09_camera_offline.sh"
 
 else
 
@@ -118,6 +121,9 @@ else
 
     source "$ROOT_DIR/scripts/07_lerobot.sh"
 
+    bash "$ROOT_DIR/scripts/08_usb.sh"
+
+    bash "$ROOT_DIR/scripts/09_camera.sh"
 
 fi
 
@@ -129,11 +135,6 @@ fi
 # Hardware
 ############################################################
 
-
-bash "$ROOT_DIR/scripts/08_usb.sh"
-
-
-bash "$ROOT_DIR/scripts/09_camera.sh"
 
 
 
