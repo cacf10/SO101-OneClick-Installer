@@ -285,7 +285,7 @@ echo "[Feetech]"
 
 check \
 "Feetech SDK" \
-"$PYTHON -c 'import feetech_servo_sdk'"
+"$PYTHON -c 'import scservo_sdk'"
 
 
 
