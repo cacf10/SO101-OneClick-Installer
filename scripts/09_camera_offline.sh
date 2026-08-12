@@ -39,7 +39,7 @@ title "STEP 9  Camera Setup (Offline)"
 # Configuration
 ############################################################
 
-APT_DIR="$ROOT_DIR/offline/apt"
+APT_DIR="$ROOT_DIR/offline/camera/apt"
 
 V4L2_DEB=""
 
