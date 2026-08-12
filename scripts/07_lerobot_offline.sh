@@ -153,7 +153,7 @@ check_import transformers
 
 check_import accelerate
 
-check_import feetech_servo_sdk
+check_import scservo_sdk
 
 
 
